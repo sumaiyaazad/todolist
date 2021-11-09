@@ -2,8 +2,8 @@
 python -m venv env
 @REM if you don't want to restart your ide run the following command otherwise ignore
 env\Scripts\activate.bat
-pip install -r requirements.txt
-django-admin startproject app app
+python -m pip install -r requirements.txt
+django-admin startproject app .
 django-admin startproject todo-list .
 virtualenv venv
 @REM python manage.py runserver 0.0.0.0:8000
