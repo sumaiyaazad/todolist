@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from .serializers import UserSerializer, LoginSerializer
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
 from django.conf import settings
 from django.contrib import auth
 # import jwt
@@ -34,8 +34,17 @@ from django.core.mail import EmailMessage
 #     if not settings.TESTING:
 #         email.send()
 
+class AuthUserAPIView(GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response({'user': serializer.data})
+
 
 class RegisterView(GenericAPIView):
+    authentication_classes = []
     serializer_class = UserSerializer
 
     def post(self, request):
@@ -52,6 +61,7 @@ class RegisterView(GenericAPIView):
 
 
 class LoginView(GenericAPIView):
+    authentication_classes = []
     serializer_class = LoginSerializer
 
     def post(self, request):
@@ -65,7 +75,6 @@ class LoginView(GenericAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-
 
 # class VerifyEmail(GenericAPIView):
 #
