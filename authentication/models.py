@@ -12,7 +12,7 @@ from django.contrib.auth.models import (
     PermissionsMixin, AbstractBaseUser, BaseUserManager
 )
 from django.conf import settings
-# import jwt
+import jwt
 from datetime import datetime, timedelta
 from helpers.models import BaseModel
 
@@ -103,10 +103,9 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
 
     @property
     def token(self):
-        # token = jwt.encode({
-        #     "username": self.username,
-        #     "email": self.email,
-        #     "exp": datetime.utcnow() + timedelta(hours=23)
-        # }, settings.SECRET_KEY, algorithm='HS256')
-        # return token
-        return ""
+        token = jwt.encode({
+            "username": self.username,
+            "email": self.email,
+            "exp": datetime.utcnow() + timedelta(hours=23)
+        }, settings.SECRET_KEY, algorithm='HS256')
+        return token
