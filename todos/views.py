@@ -60,7 +60,7 @@ class TodoDetailAPIView(RetrieveUpdateDestroyAPIView):
     """
     serializer_class = TodoSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    lookup_field="id"
+    lookup_field = "id"
 
     def get_queryset(self):
         return Todo.objects.filter(owner=self.request.user)
